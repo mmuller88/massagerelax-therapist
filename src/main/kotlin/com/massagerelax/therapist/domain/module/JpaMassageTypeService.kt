@@ -10,7 +10,7 @@ import javax.transaction.Transactional
 @Transactional
 class JpaMassageTypeService(val repo: MassageTypeRepository): MassageTypeService {
     override fun retrieveMassageType(id: Long): MassageTypeEntity {
-        return repo.findById(id).orElseThrow{MassageTypeNotFoundException(id)}
+        return repo.findById(id).orElseThrow{ MassageTypeNotFoundException(id) }
     }
 
     override fun retrieveMassageTypes(): List<MassageTypeEntity> {

@@ -47,14 +47,32 @@ class TherapistApplication : CommandLineRunner {
 				description = "Martin's wife",
 				number = "1233344",
 				mobile_table = true,
-				massageTypes = mutableListOf(relax, swedish))
+				massageTypes = mutableListOf(relax, swedish),
+				workingDays = 85,
+				hoursMonday = 130048,
+				hoursTuesday = 130048,
+				hoursWednesday = 130048,
+				hoursThursday = 130048,
+				hoursFriday = 130048,
+				hoursSaturday = 130048,
+				hoursSunday = 130048
+				)
 
 		val martin = TherapistEntity(
 				name = "Martin Mueller",
 				description = "Kenia's husband",
 				number = "555",
 				mobile_table = false,
-				massageTypes = mutableListOf(relax))
+				massageTypes = mutableListOf(relax),
+				workingDays = 42,
+				hoursMonday = 520192,
+				hoursTuesday = 520192,
+				hoursWednesday = 520192,
+				hoursThursday = 520192,
+				hoursFriday = 520192,
+				hoursSaturday = 520192,
+				hoursSunday = 520192
+		)
 
 		massageTypeRepo?.save(relax)
 		massageTypeRepo?.save(swedish)

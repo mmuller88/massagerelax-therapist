@@ -21,8 +21,8 @@ class TherapistController(private val jpaTherapistService: JpaTherapistService) 
     @ApiResponses(value = [
         ApiResponse(code = 401, message = "Authentication failed", response = ErrorResponse::class)
     ])
-    fun getAllTherapists(): ResponseEntity<List<TherapistEntity>> {
-        return ResponseEntity.ok(jpaTherapistService.retrieveTherapists())
+    fun getAllTherapists(): ResponseEntity<List<TherapistDTO>> {
+        return ResponseEntity.ok(jpaTherapistService.retrieveTherapists().map { therapistEntity -> therapistEntity.toDto()})
     }
 
     @GetMapping("/therapists/{therapistId}")
