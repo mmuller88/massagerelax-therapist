@@ -18,7 +18,6 @@ data class TherapistEntity (
         @NotNull
         @get: NotBlank
         @Size(max = 100)
-        @NaturalId
         val name: String = "",
 
         @get: NotBlank
@@ -87,15 +86,7 @@ data class TherapistEntity (
                 name = this.name,
                 description = this.description,
                 number = this.number,
-                mobileTable = this.mobile_table,
-                workingDays = Week(
-                        monday = WeekDay((this.workingDays and (1 shl 0)) != 0, this.hoursMonday),
-                        tuesday = WeekDay((this.workingDays and (1 shl 1)) != 0, this.hoursTuesday),
-                        wednesday = WeekDay((this.workingDays and (1 shl 2)) != 0, this.hoursWednesday),
-                        thursday = WeekDay((this.workingDays and (1 shl 3)) != 0, this.hoursThursday),
-                        friday = WeekDay((this.workingDays and (1 shl 4)) != 0, this.hoursFriday),
-                        saturday = WeekDay((this.workingDays and (1 shl 5)) != 0, this.hoursSaturday),
-                        sunday = WeekDay((this.workingDays and (1 shl 6)) != 0, this.hoursSunday))
+                mobileTable = this.mobile_table
         )
 
         companion object {
@@ -111,8 +102,7 @@ data class TherapistEntity (
                         name = dto.name,
                         description = dto.description,
                         number = dto.number,
-                        mobile_table = dto.mobileTable,
-                        workingDays = dto.workingDays.toInt())
+                        mobile_table = dto.mobileTable)
 
                 fun fromDto(dto: UpdateTherapistDTO) = TherapistEntity(
                         name = dto.name,

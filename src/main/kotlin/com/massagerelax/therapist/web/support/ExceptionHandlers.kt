@@ -3,6 +3,7 @@ package com.massagerelax.therapist.web.support
 import com.massagerelax.therapist.web.support.ErrorResponseEntity.Companion.badReqeust
 import com.massagerelax.therapist.web.support.ErrorResponseEntity.Companion.notFound
 import com.massagerelax.therapist.domain.DataNotFoundException
+import com.massagerelax.therapist.domain.InvalidArgumentException
 import com.massagerelax.therapist.domain.KeyExistException
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.MessageSource
@@ -23,6 +24,10 @@ class ExceptionHandlers @Autowired constructor(var messageSource: MessageSource)
     @ExceptionHandler(DataNotFoundException::class)
     fun resourceNotFoundException(exception: DataNotFoundException, locale: Locale) =
             notFound(messageSource.getMessage(exception, locale))
+
+    @ExceptionHandler(InvalidArgumentException::class)
+    fun invalidArgumentException(exception: InvalidArgumentException, locale: Locale) =
+            badReqeust(messageSource.getMessage(exception, locale))
 
     @ExceptionHandler(MethodArgumentNotValidException::class)
     fun methodArgumentNotValidException(exception: MethodArgumentNotValidException, locale: Locale) =

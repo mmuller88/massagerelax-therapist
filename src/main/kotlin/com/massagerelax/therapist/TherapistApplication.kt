@@ -49,13 +49,13 @@ class TherapistApplication : CommandLineRunner {
 				mobile_table = true,
 				massageTypes = mutableListOf(relax, swedish),
 				workingDays = 85,
-				hoursMonday = 130048,
-				hoursTuesday = 130048,
-				hoursWednesday = 130048,
-				hoursThursday = 130048,
-				hoursFriday = 130048,
-				hoursSaturday = 130048,
-				hoursSunday = 130048
+				hoursMonday = 523264,
+				hoursTuesday = 523264,
+				hoursWednesday = 523264,
+				hoursThursday = 523264,
+				hoursFriday = 523264,
+				hoursSaturday = 523264,
+				hoursSunday = 523264
 				)
 
 		val martin = TherapistEntity(
@@ -65,21 +65,22 @@ class TherapistApplication : CommandLineRunner {
 				mobile_table = false,
 				massageTypes = mutableListOf(relax),
 				workingDays = 42,
-				hoursMonday = 520192,
-				hoursTuesday = 520192,
-				hoursWednesday = 520192,
-				hoursThursday = 520192,
-				hoursFriday = 520192,
-				hoursSaturday = 520192,
-				hoursSunday = 520192
+				hoursMonday = 523264,
+				hoursTuesday = 523264,
+				hoursWednesday = 523264,
+				hoursThursday = 523264,
+				hoursFriday = 523264,
+				hoursSaturday = 523264,
+				hoursSunday = 523264
 		)
 
 		massageTypeRepo?.save(relax)
 		massageTypeRepo?.save(swedish)
 		massageTypeRepo?.save(tai)
 
-		therapistRepo?.save(kenia)
+		val keniaR = therapistRepo?.save(kenia)
 		therapistRepo?.save(martin)
+		logger.info("Kenia " + keniaR?.id.toString())
 
 		// fetch all books
 //		for(therapist in therapistRepo.findAll()) {

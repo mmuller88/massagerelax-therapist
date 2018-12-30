@@ -30,7 +30,6 @@ class JpaMassageTypeService(val repo: MassageTypeRepository): MassageTypeService
     }
 
     override fun deleteMassageType(id: Long) {
-
         return repo.findById(id).map { existingTherapist ->
             repo.delete(existingTherapist)
         }.orElseThrow{ MassageTypeNotFoundException(id) }
