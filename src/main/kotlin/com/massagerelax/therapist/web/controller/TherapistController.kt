@@ -5,6 +5,7 @@ import com.massagerelax.therapist.web.dto.TherapistDTO
 import com.massagerelax.therapist.web.dto.UpdateTherapistDTO
 import com.massagerelax.therapist.domain.entity.TherapistEntity
 import com.massagerelax.therapist.domain.module.JpaTherapistService
+import com.massagerelax.therapist.web.config.SecurityContextUtils
 import com.massagerelax.therapist.web.support.ErrorResponse
 import io.swagger.annotations.ApiResponse
 import io.swagger.annotations.ApiResponses
@@ -12,6 +13,8 @@ import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 import javax.validation.Valid
+import org.springframework.security.access.prepost.PreAuthorize
+
 
 @RestController
 @RequestMapping("/api")
