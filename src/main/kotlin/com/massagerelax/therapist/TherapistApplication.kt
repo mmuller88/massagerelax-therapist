@@ -43,7 +43,7 @@ class TherapistApplication : CommandLineRunner {
 				description = "For maximum relaxing")
 
 		val kenia = TherapistEntity(
-				name = "Kenia Alves",
+				userName = "kenia",
 				description = "Martin's wife",
 				number = "1233344",
 				mobile_table = true,
@@ -59,7 +59,7 @@ class TherapistApplication : CommandLineRunner {
 				)
 
 		val martin = TherapistEntity(
-				name = "Martin Mueller",
+				userName = "martin",
 				description = "Kenia's husband",
 				number = "555",
 				mobile_table = false,
@@ -80,7 +80,7 @@ class TherapistApplication : CommandLineRunner {
 
 		val keniaR = therapistRepo?.save(kenia)
 		therapistRepo?.save(martin)
-		logger.info("Kenia " + keniaR?.id.toString())
+		logger.info("Kenia " + keniaR?.userName.toString())
 
 		// fetch all books
 //		for(therapist in therapistRepo.findAll()) {

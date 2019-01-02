@@ -28,13 +28,13 @@ class TherapistController(private val jpaTherapistService: JpaTherapistService) 
         return ResponseEntity.ok(jpaTherapistService.retrieveTherapists().map { therapistEntity -> therapistEntity.toDto()})
     }
 
-    @GetMapping("/therapists/{therapistId}")
+    @GetMapping("/therapists/{therapistName}")
     @ApiResponses(value = [
         ApiResponse(code = 401, message = "Authentication failed", response = ErrorResponse::class),
-        ApiResponse(code = 404, message = "therapistId don't exists", response = ErrorResponse::class)
+        ApiResponse(code = 404, message = "therapistName don't exists", response = ErrorResponse::class)
     ])
-    fun getTherapistById(@PathVariable(value = "therapistId") therapistId: Long): ResponseEntity<TherapistDTO> {
-        return ResponseEntity.ok(jpaTherapistService.retrieveTherapist(therapistId).toDto())
+    fun getTherapistByName(@PathVariable(value = "therapistName") therapistName: String): ResponseEntity<TherapistDTO> {
+        return ResponseEntity.ok(jpaTherapistService.retrieveTherapist(therapistName).toDto())
     }
 
     @PostMapping("/therapists")
@@ -46,24 +46,24 @@ class TherapistController(private val jpaTherapistService: JpaTherapistService) 
         return ResponseEntity.status(HttpStatus.CREATED).body(jpaTherapistService.addTherapist(TherapistEntity.fromDto(therapistBodyCreate)).toDto())
     }
 
-    @PutMapping("/therapists/{therapistId}")
+    @PutMapping("/therapists/{therapistName}")
     @ApiResponses(value = [
         ApiResponse(code = 400, message = "Invalid parameter: therapistBodyUpdate is invalid", response = ErrorResponse::class),
         ApiResponse(code = 401, message = "Authentication failed", response = ErrorResponse::class),
-        ApiResponse(code = 404, message = "therapistId don't exists", response = ErrorResponse::class)
+        ApiResponse(code = 404, message = "therapistName don't exists", response = ErrorResponse::class)
         ])
-    fun updateTherapistById(@PathVariable(value = "therapistId") therapistId: Long,
+    fun updateTherapistByName(@PathVariable(value = "therapistName") therapistName: String,
                           @Valid @RequestBody therapistBodyUpdate: UpdateTherapistDTO): ResponseEntity<TherapistDTO> {
-        return ResponseEntity.ok(jpaTherapistService.updateTherapist(therapistId, TherapistEntity.fromDto(therapistBodyUpdate)).toDto())
+        return ResponseEntity.ok(jpaTherapistService.updateTherapist(therapistName, TherapistEntity.fromDto(therapistBodyUpdate)).toDto())
     }
 
-    @DeleteMapping("/therapists/{therapistId}")
+    @DeleteMapping("/therapists/{therapistName}")
     @ApiResponses(value = [
         ApiResponse(code = 401, message = "Authentication failed", response = ErrorResponse::class),
-        ApiResponse(code = 404, message = "therapistId don't exists", response = ErrorResponse::class)
+        ApiResponse(code = 404, message = "therapistName don't exists", response = ErrorResponse::class)
     ])
-    fun deleteTherapistById(@PathVariable(value = "therapistId") therapistId: Long): ResponseEntity<Void> {
-        jpaTherapistService.deleteTherapist(therapistId)
+    fun deleteTherapistByName(@PathVariable(value = "therapistName") therapistName: String): ResponseEntity<Void> {
+        jpaTherapistService.deleteTherapist(therapistName)
         return ResponseEntity.noContent().build()
     }
 

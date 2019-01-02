@@ -6,16 +6,16 @@ import com.massagerelax.therapist.domain.entity.TherapistEntity
 import java.util.*
 
 interface TherapistService {
-    fun retrieveTherapist(id: Long): TherapistEntity
+    fun retrieveTherapist(userName: String): TherapistEntity
 
     fun retrieveTherapists(): List<TherapistEntity>
 
     fun addTherapist(therapist: TherapistEntity): TherapistEntity
 
-    fun updateTherapist(id: Long, therapist: TherapistEntity): TherapistEntity
+    fun updateTherapist(userName: String, therapist: TherapistEntity): TherapistEntity
 
-    fun deleteTherapist(id: Long)
+    fun deleteTherapist(userName: String)
 
-    fun addTherapistMassage(id: Long, massageType: MassageTypeEntity): TherapistEntity
-    fun deleteTherapistMassage(id: Long, massageType: MassageTypeEntity)
+    fun addTherapistMassage(userName: String, massageType: MassageTypeEntity): TherapistEntity
+    fun deleteTherapistMassage(userName: String, massageType: MassageTypeEntity)
 }

@@ -20,41 +20,41 @@ class TherapistMassagesController(
         private val jpaMassageTypeService: JpaMassageTypeService)
     {
 
-    @GetMapping("/therapists/{therapistId}/massages")
+    @GetMapping("/therapists/{therapistName}/massages")
     @ApiResponses(value = [
         ApiResponse(code = 401, message = "Authentication failed", response = ErrorResponse::class),
-        ApiResponse(code = 404, message = "therapistId don't exists", response = ErrorResponse::class)
+        ApiResponse(code = 404, message = "therapistName don't exists", response = ErrorResponse::class)
     ])
-    fun getMassagesByTherapistId(@PathVariable(value = "therapistId") therapistId: Long): List<MassageTypeDTO> {
+    fun getMassagesByTherapistName(@PathVariable(value = "therapistName") therapistName: String): List<MassageTypeDTO> {
 
-        return jpaTherapistService.retrieveTherapist(therapistId).massageTypes.map { massage -> massage.toDto() }
+        return jpaTherapistService.retrieveTherapist(therapistName).massageTypes.map { massage -> massage.toDto() }
     }
 
-    @PostMapping("/therapists/{therapistId}/massages")
+    @PostMapping("/therapists/{therapistName}/massages")
     @ApiResponses(value = [
         ApiResponse(code = 400, message = "Invalid parameter: therapistMassageBodyAdd is invalid", response = ErrorResponse::class),
         ApiResponse(code = 401, message = "Authentication failed", response = ErrorResponse::class),
-        ApiResponse(code = 404, message = "therapistId don't exists", response = ErrorResponse::class)
+        ApiResponse(code = 404, message = "therapistName don't exists", response = ErrorResponse::class)
     ])
     fun addTherapistMassage(
-            @PathVariable(value = "therapistId") therapistId: Long,
+            @PathVariable(value = "therapistName") therapistName: String,
             @Valid @RequestBody therapistMassageBodyAdd: Long): ResponseEntity<TherapistEntity> {
         // get massage type
         val massageType = jpaMassageTypeService.retrieveMassageType(therapistMassageBodyAdd)
-        return ResponseEntity.ok(jpaTherapistService.addTherapistMassage(therapistId, massageType))
+        return ResponseEntity.ok(jpaTherapistService.addTherapistMassage(therapistName, massageType))
     }
 
-    @DeleteMapping("/therapists/{therapistId}/massages/{massageTypeId}")
+    @DeleteMapping("/therapists/{therapistName}/massages/{massageTypeId}")
     @ApiResponses(value = [
         ApiResponse(code = 401, message = "Authentication failed", response = ErrorResponse::class),
-        ApiResponse(code = 404, message = "therapistId don't exists", response = ErrorResponse::class)
+        ApiResponse(code = 404, message = "therapistName don't exists", response = ErrorResponse::class)
     ])
     fun deleteTherapistMassage(
-            @PathVariable(value = "therapistId") therapistId: Long,
+            @PathVariable(value = "therapistName") therapistName: String,
             @PathVariable(value = "massageTypeId") massageTypeId: Long): ResponseEntity<String>? {
         // get massage type
         val massageType = jpaMassageTypeService.retrieveMassageType(massageTypeId)
-        jpaTherapistService.deleteTherapistMassage(therapistId, massageType)
+        jpaTherapistService.deleteTherapistMassage(therapistName, massageType)
         return ResponseEntity.noContent().build()
     }
 
