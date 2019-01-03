@@ -11,13 +11,14 @@ import javax.validation.constraints.Size
 @Entity
 @Table(name = "therapist")
 data class TherapistEntity (
-
         @Id
+        @GeneratedValue(strategy = GenerationType.IDENTITY)
+        val id: Long = 0,
+
         @NotNull
         @get: NotBlank
         @Size(max = 100)
-        @NaturalId
-        val userName: String = "",
+        val name: String = "",
 
         @get: NotBlank
         val description: String? = "",
@@ -81,7 +82,8 @@ data class TherapistEntity (
 {
 
         fun toDto(): TherapistDTO = TherapistDTO(
-                userName = this.userName,
+                id = this.id!!,
+                name = this.name,
                 description = this.description,
                 number = this.number,
                 mobileTable = this.mobile_table
@@ -90,19 +92,20 @@ data class TherapistEntity (
         companion object {
 
                 fun fromDto(dto: TherapistDTO) = TherapistEntity(
-                        userName = dto.userName,
+                        id = dto.id,
+                        name = dto.name,
                         description = dto.description,
                         number = dto.number,
                         mobile_table = dto.mobileTable)
 
                 fun fromDto(dto: CreateTherapistDTO) = TherapistEntity(
-                        userName = dto.userName,
+                        name = dto.name,
                         description = dto.description,
                         number = dto.number,
                         mobile_table = dto.mobileTable)
 
                 fun fromDto(dto: UpdateTherapistDTO) = TherapistEntity(
-                        userName = dto.userName,
+                        name = dto.name,
                         description = dto.description,
                         number = dto.number,
                         mobile_table = dto.mobileTable)

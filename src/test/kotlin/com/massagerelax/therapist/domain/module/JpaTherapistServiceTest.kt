@@ -47,7 +47,8 @@ class JpaTherapistServiceTest {
             description = "For maximum relaxing")
 
     val kenia = TherapistEntity(
-            userName = "Kenia Alves",
+            id = 1,
+            name = "Kenia Alves",
             description = "Martin's wife",
             number = "1233344",
             mobile_table = true,
@@ -63,7 +64,8 @@ class JpaTherapistServiceTest {
     )
 
     val martin = TherapistEntity(
-            userName = "Martin Mueller",
+            id = 2,
+            name = "Martin Mueller",
             description = "Kenia's husband",
             number = "555",
             mobile_table = false,
@@ -85,12 +87,12 @@ class JpaTherapistServiceTest {
 
     @Test
     fun retrieveTherapist() {
-        given(therapistRepository.findById(kenia.userName)).willReturn(Optional.of(kenia))
-        val retrieveTherapist = therapistService.retrieveTherapist(kenia.userName)
+        given(therapistRepository.findById(kenia.id)).willReturn(Optional.of(kenia))
+        val retrieveTherapist = therapistService.retrieveTherapist(kenia.id)
         assertThat(retrieveTherapist, `is`(kenia))
 
         Assertions.assertThrows(TherapistNotFoundException::class.java) {
-            therapistService.retrieveTherapist(martin.userName)
+            therapistService.retrieveTherapist(martin.id)
         }
     }
 
@@ -112,80 +114,80 @@ class JpaTherapistServiceTest {
 
     @Test
     fun updateTherapist() {
-        val updatedKenia = kenia.copy(userName = "Alice", number = "666")
-        given(therapistRepository.findById(kenia.userName)).willReturn(Optional.of(kenia))
+        val updatedKenia = kenia.copy(name = "Alice", number = "666")
+        given(therapistRepository.findById(kenia.id)).willReturn(Optional.of(kenia))
         given(therapistRepository.save(updatedKenia)).willReturn(updatedKenia)
-        val updateTherapist = therapistService.updateTherapist(kenia.userName, updatedKenia)
+        val updateTherapist = therapistService.updateTherapist(kenia.id, updatedKenia)
         assertThat(updateTherapist, `is`(updateTherapist))
 
         Assertions.assertThrows(TherapistNotFoundException::class.java) {
-            therapistService.updateTherapist(martin.userName, updatedKenia)
+            therapistService.updateTherapist(martin.id, updatedKenia)
         }
     }
 
     @Test
     fun addTherapistMassage() {
-        given(therapistRepository.findById(kenia.userName)).willReturn(Optional.of(kenia))
+        given(therapistRepository.findById(kenia.id)).willReturn(Optional.of(kenia))
         given(massageTypeRepository.findById(relax.id)).willReturn(Optional.of(relax))
         given(massageTypeRepository.findById(swedish.id)).willReturn(Optional.of(swedish))
 
         Assertions.assertThrows(TherapistMassageKeyExistException::class.java) {
-            therapistService.addTherapistMassage(kenia.userName, relax)
+            therapistService.addTherapistMassage(kenia.id, relax)
         }
 
         Assertions.assertThrows(MassageTypeNotFoundException::class.java) {
-            therapistService.addTherapistMassage(kenia.userName, tai)
+            therapistService.addTherapistMassage(kenia.id, tai)
         }
 
         Assertions.assertThrows(TherapistNotFoundException::class.java) {
-            therapistService.addTherapistMassage(martin.userName, relax)
+            therapistService.addTherapistMassage(martin.id, relax)
         }
 
         Assertions.assertThrows(MassageTypeNotFoundException::class.java) {
-            therapistService.addTherapistMassage(martin.userName, tai)
+            therapistService.addTherapistMassage(martin.id, tai)
         }
 
         val updatedKenia = kenia.copy(massageTypes = listOf(relax, swedish))
         given(therapistRepository.save(updatedKenia)).willReturn(updatedKenia)
-        val addTherapistMassage = therapistService.addTherapistMassage(kenia.userName, swedish)
+        val addTherapistMassage = therapistService.addTherapistMassage(kenia.id, swedish)
 
         assertThat(addTherapistMassage, `is`(updatedKenia))
     }
 
     @Test
     fun deleteTherapistMassage() {
-        given(therapistRepository.findById(kenia.userName)).willReturn(Optional.of(kenia))
+        given(therapistRepository.findById(kenia.id)).willReturn(Optional.of(kenia))
         given(massageTypeRepository.findById(relax.id)).willReturn(Optional.of(relax))
         given(massageTypeRepository.findById(swedish.id)).willReturn(Optional.of(swedish))
 
         Assertions.assertThrows(MassageTypeNotFoundException::class.java) {
-            therapistService.deleteTherapistMassage(kenia.userName, tai)
+            therapistService.deleteTherapistMassage(kenia.id, tai)
         }
 
         Assertions.assertThrows(TherapistMassageTypeNotFoundException::class.java) {
-            therapistService.deleteTherapistMassage(kenia.userName, swedish)
+            therapistService.deleteTherapistMassage(kenia.id, swedish)
         }
 
         Assertions.assertThrows(TherapistNotFoundException::class.java) {
-            therapistService.addTherapistMassage(martin.userName, relax)
+            therapistService.addTherapistMassage(martin.id, relax)
         }
 
         Assertions.assertThrows(MassageTypeNotFoundException::class.java) {
-            therapistService.addTherapistMassage(martin.userName, tai)
+            therapistService.addTherapistMassage(martin.id, tai)
         }
 
-        therapistService.deleteTherapistMassage(kenia.userName, relax)
+        therapistService.deleteTherapistMassage(kenia.id, relax)
 
     }
 
     @Test
     fun deleteTherapist() {
-        given(therapistRepository.findById(kenia.userName)).willReturn(Optional.of(kenia))
+        given(therapistRepository.findById(kenia.id)).willReturn(Optional.of(kenia))
         doNothing().`when`(therapistRepository).delete(kenia)
-        therapistService.deleteTherapist(kenia.userName)
+        therapistService.deleteTherapist(kenia.id)
 
         Assertions.assertThrows(TherapistNotFoundException::class.java) {
-            therapistService.deleteTherapist(martin.userName)
+            therapistService.deleteTherapist(martin.id)
         }
     }
 

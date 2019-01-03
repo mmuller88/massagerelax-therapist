@@ -33,7 +33,8 @@ class Hours(val h0: Boolean=false,val h1: Boolean=false,val h2: Boolean=false,va
 }
 
 data class TherapistDTO(
-        val userName: String,
+        val id: Long,
+        val name: String,
         val description: String?,
         val number: String,
         val mobileTable: Boolean=false)

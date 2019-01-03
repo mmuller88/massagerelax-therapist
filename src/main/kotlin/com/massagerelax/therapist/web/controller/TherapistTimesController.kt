@@ -17,13 +17,13 @@ import javax.validation.Valid
 @RequestMapping("/api")
 class TherapistTimesController(private val jpaTherapistService: JpaTherapistService) {
 
-    @GetMapping("/therapists/{therapistName}/working-times")
+    @GetMapping("/therapists/{therapistId}/working-times")
     @ApiResponses(value = [
         ApiResponse(code = 401, message = "Authentication failed", response = ErrorResponse::class),
-        ApiResponse(code = 404, message = "therapistName don't exists", response = ErrorResponse::class)
+        ApiResponse(code = 404, message = "therapistId don't exists", response = ErrorResponse::class)
     ])
-    fun getWorkingTimesByTherapistName(@PathVariable(value = "therapistName") therapistName: String): ResponseEntity<List<WorkingDayDTO>> {
-        val therapist = jpaTherapistService.retrieveTherapist(therapistName)
+    fun getWorkingTimesByTherapistId(@PathVariable(value = "therapistId") therapistId: Long): ResponseEntity<List<WorkingDayDTO>> {
+        val therapist = jpaTherapistService.retrieveTherapist(therapistId)
         val monday = WorkingDayDTO("Monday", therapist.workingDays and (1 shl 0) != 0, Hour.hourListFromInt(therapist.hoursMonday))
         val tuesday = WorkingDayDTO("Tuesday", therapist.workingDays and (1 shl 1) != 0, Hour.hourListFromInt(therapist.hoursTuesday))
         val wednesday = WorkingDayDTO("Wednesday", therapist.workingDays and (1 shl 2) != 0, Hour.hourListFromInt(therapist.hoursWednesday))
@@ -34,16 +34,16 @@ class TherapistTimesController(private val jpaTherapistService: JpaTherapistServ
         return ResponseEntity.ok(listOf(monday, tuesday, wednesday, thursday, friday, saturday, sunday))
     }
 
-    @GetMapping("/therapists/{therapistName}/working-times/{weekDay}")
+    @GetMapping("/therapists/{therapistId}/working-times/{weekDay}")
     @ApiResponses(value = [
         ApiResponse(code = 400, message = "weekDay is not valid", response = ErrorResponse::class),
         ApiResponse(code = 401, message = "Authentication failed", response = ErrorResponse::class),
-        ApiResponse(code = 404, message = "therapistName don't exists", response = ErrorResponse::class)
+        ApiResponse(code = 404, message = "therapistId don't exists", response = ErrorResponse::class)
     ])
-    fun getWorkingTimesByTherapistNameAndWeekDay(
-            @PathVariable(value = "therapistName") therapistName: String,
+    fun getWorkingTimesByTherapistIdAndWeekDay(
+            @PathVariable(value = "therapistId") therapistId: Long,
             @PathVariable(value = "weekDay") @ApiParam(value = "Weekday. Use monday, tuesday, wednesday, thursday, friday, saturday or sunday", example = "monday", required = true) weekDay: String): ResponseEntity<WorkingDayDTO> {
-        val therapist = jpaTherapistService.retrieveTherapist(therapistName)
+        val therapist = jpaTherapistService.retrieveTherapist(therapistId)
         var workingDayDTO: WorkingDayDTO?
         val weekDay = weekDay.toLowerCase()
         when (weekDay) {
@@ -59,14 +59,14 @@ class TherapistTimesController(private val jpaTherapistService: JpaTherapistServ
         return ResponseEntity.ok(workingDayDTO)
     }
 
-    @PutMapping("/therapists/{therapistName}/working-times/{weekDay}")
+    @PutMapping("/therapists/{therapistId}/working-times/{weekDay}")
     @ApiResponses(value = [
         ApiResponse(code = 400, message = "weekDay is not valid", response = ErrorResponse::class),
         ApiResponse(code = 401, message = "Authentication failed", response = ErrorResponse::class),
-        ApiResponse(code = 404, message = "therapistName don't exists", response = ErrorResponse::class)
+        ApiResponse(code = 404, message = "therapistId don't exists", response = ErrorResponse::class)
     ])
-    fun updateWorkingTimesByTherapistNameAndWeekDay(
-            @PathVariable(value = "therapistName") therapistName: String,
+    fun updateWorkingTimesByTherapistIdAndWeekDay(
+            @PathVariable(value = "therapistId") therapistId: Long,
             @PathVariable(value = "weekDay") @ApiParam(value = "Weekday. Use monday, tuesday, wednesday, thursday, friday, saturday or sunday", example = "monday", required = true) weekDay: String,
             @Valid @RequestBody therapistWorkingDayUpdate: UpdateWorkingDayDTO): ResponseEntity<WorkingDayDTO> {
 
@@ -77,7 +77,7 @@ class TherapistTimesController(private val jpaTherapistService: JpaTherapistServ
             }
         }
 
-        val therapist = jpaTherapistService.retrieveTherapist(therapistName)
+        val therapist = jpaTherapistService.retrieveTherapist(therapistId)
         var updatedTherapist = therapist.copy()
         val weekDay = weekDay.toLowerCase()
 
@@ -128,9 +128,9 @@ class TherapistTimesController(private val jpaTherapistService: JpaTherapistServ
             }
             else -> { throw InvalidStringParameterException(weekDay) }
         }
-        jpaTherapistService.updateTherapist(therapistName, updatedTherapist)
+        jpaTherapistService.updateTherapist(therapistId, updatedTherapist)
 
-        return getWorkingTimesByTherapistNameAndWeekDay(therapistName, weekDay)
+        return getWorkingTimesByTherapistIdAndWeekDay(therapistId, weekDay)
     }
 }
 

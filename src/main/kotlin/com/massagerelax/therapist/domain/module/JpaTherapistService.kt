@@ -15,8 +15,8 @@ import javax.transaction.Transactional
 @Transactional
 class JpaTherapistService(val therapistRepository: TherapistRepository, val massageTypeRepo: MassageTypeRepository): TherapistService {
 
-    override fun retrieveTherapist(userName: String): TherapistEntity {
-        return therapistRepository.findById(userName).orElseThrow{ TherapistNotFoundException(userName) }
+    override fun retrieveTherapist(therapistId: Long): TherapistEntity {
+        return therapistRepository.findById(therapistId).orElseThrow{ TherapistNotFoundException(therapistId) }
     }
 
     override fun retrieveTherapists(): List<TherapistEntity> {
@@ -27,11 +27,11 @@ class JpaTherapistService(val therapistRepository: TherapistRepository, val mass
         return therapistRepository.save(therapist)
     }
 
-    override fun updateTherapist(userName: String, updateTherapist: TherapistEntity): TherapistEntity {
-        return therapistRepository.findById(userName).map { existingTherapist ->
+    override fun updateTherapist(id: Long, updateTherapist: TherapistEntity): TherapistEntity {
+        return therapistRepository.findById(id).map { existingTherapist ->
             val updatedTherapist: TherapistEntity = existingTherapist
                     .copy(
-                            userName = updateTherapist.userName,
+                            name = updateTherapist.name,
                             description = updateTherapist.description,
                             number = updateTherapist.number,
                             mobile_table = updateTherapist.mobile_table,
@@ -45,42 +45,42 @@ class JpaTherapistService(val therapistRepository: TherapistRepository, val mass
                             hoursSunday = updateTherapist.hoursSunday
                             )
             therapistRepository.save(updatedTherapist)
-        }.orElseThrow{ TherapistNotFoundException(userName) }
+        }.orElseThrow{ TherapistNotFoundException(id) }
     }
 
-    override fun addTherapistMassage(userName: String, massageType: MassageTypeEntity): TherapistEntity {
+    override fun addTherapistMassage(id: Long, massageType: MassageTypeEntity): TherapistEntity {
         // check if massagetype id exists
         massageTypeRepo.findById(massageType.id).orElseThrow{MassageTypeNotFoundException(massageType.id) }
 
-        return therapistRepository.findById(userName).map { existingTherapist ->
+        return therapistRepository.findById(id).map { existingTherapist ->
             // Check if therapist already has the massage type
             if(existingTherapist.massageTypes.contains(massageType)) {
-                throw TherapistMassageKeyExistException(existingTherapist.userName, massageType.name)
+                throw TherapistMassageKeyExistException(existingTherapist.name, massageType.name)
             }
             // update therapist
             val updatedTherapist: TherapistEntity = existingTherapist
                     .copy(massageTypes = existingTherapist.massageTypes + listOf(massageType))
             therapistRepository.save(updatedTherapist)
-        }.orElseThrow{ TherapistNotFoundException(userName) }
+        }.orElseThrow{ TherapistNotFoundException(id) }
     }
 
-    override fun deleteTherapistMassage(userName: String, massageType: MassageTypeEntity) {
+    override fun deleteTherapistMassage(id: Long, massageType: MassageTypeEntity) {
         // check if massagetype id exists
         massageTypeRepo.findById(massageType.id).orElseThrow{MassageTypeNotFoundException(massageType.id) }
 
-        return therapistRepository.findById(userName).map { existingTherapist ->
+        return therapistRepository.findById(id).map { existingTherapist ->
             // Check if therapist has the massage type
             if(!existingTherapist.massageTypes.contains(massageType)) {
-                throw TherapistMassageTypeNotFoundException(existingTherapist.userName!!, massageType.id!!)
+                throw TherapistMassageTypeNotFoundException(existingTherapist.id!!, massageType.id!!)
             }
             therapistRepository.delete(existingTherapist)
-        }.orElseThrow{ TherapistNotFoundException(userName) }
+        }.orElseThrow{ TherapistNotFoundException(id) }
     }
 
-    override fun deleteTherapist(userName: String) {
-        return therapistRepository.findById(userName).map { existingTherapist ->
+    override fun deleteTherapist(id: Long) {
+        return therapistRepository.findById(id).map { existingTherapist ->
             therapistRepository.delete(existingTherapist)
-        }.orElseThrow{ TherapistNotFoundException(userName) }
+        }.orElseThrow{ TherapistNotFoundException(id) }
     }
 
 }

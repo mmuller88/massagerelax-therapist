@@ -5,4 +5,4 @@ import org.springframework.data.jpa.repository.JpaRepository
 import javax.transaction.Transactional
 
 @Transactional(Transactional.TxType.MANDATORY)
-interface TherapistRepository : JpaRepository<TherapistEntity, String>
+interface TherapistRepository : JpaRepository<TherapistEntity, Long>
