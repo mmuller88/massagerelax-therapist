@@ -24,9 +24,7 @@ data class TherapistEntity (
         val description: String? = "",
 
         @NotNull
-        @Email
         @Size(max = 100)
-        @Column(unique = true)
         @get: NotBlank
         val number: String = "",
 

@@ -11,6 +11,7 @@ import io.swagger.annotations.ApiResponse
 import io.swagger.annotations.ApiResponses
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
+import org.springframework.security.access.prepost.PostAuthorize
 import org.springframework.web.bind.annotation.*
 import javax.validation.Valid
 import org.springframework.security.access.prepost.PreAuthorize
@@ -52,6 +53,7 @@ class TherapistController(private val jpaTherapistService: JpaTherapistService) 
         ApiResponse(code = 401, message = "Authentication failed", response = ErrorResponse::class),
         ApiResponse(code = 404, message = "therapistId don't exists", response = ErrorResponse::class)
         ])
+//    @PostAuthorize("returnObject.username == authentication.principal.nickName")
     fun updateTherapistById(@PathVariable(value = "therapistId") therapistId: Long,
                           @Valid @RequestBody therapistBodyUpdate: UpdateTherapistDTO): ResponseEntity<TherapistDTO> {
         return ResponseEntity.ok(jpaTherapistService.updateTherapist(therapistId, TherapistEntity.fromDto(therapistBodyUpdate)).toDto())

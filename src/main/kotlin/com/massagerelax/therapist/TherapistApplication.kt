@@ -8,26 +8,26 @@ import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.CommandLineRunner
 import org.springframework.boot.autoconfigure.SpringBootApplication
+import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration
+import org.springframework.boot.autoconfigure.security.servlet.UserDetailsServiceAutoConfiguration
 import org.springframework.boot.runApplication
+import org.springframework.context.annotation.Bean
 import java.awt.print.Book
 
 
 
-@SpringBootApplication
-class TherapistApplication : CommandLineRunner {
+@SpringBootApplication(exclude = [
+	SecurityAutoConfiguration::class,
+	UserDetailsServiceAutoConfiguration::class])
+class TherapistApplication {
 
 	private val logger = LoggerFactory.getLogger(TherapistApplication::class.java)
 
-	@Autowired
-	val massageTypeRepo: MassageTypeRepository? = null
-
-	@Autowired
-	val therapistRepo: TherapistRepository? = null
-
-	override fun run(vararg args: String?) {
-		// Cleanup the tables
-		massageTypeRepo?.deleteAllInBatch()
-		therapistRepo?.deleteAllInBatch()
+	@Bean
+	fun databaseInitializer(massageTypeRepo: MassageTypeRepository,
+							therapistRepo: TherapistRepository) = CommandLineRunner {
+		massageTypeRepo.deleteAllInBatch()
+		therapistRepo.deleteAllInBatch()
 
 
 		val relax = MassageTypeEntity(
@@ -56,7 +56,7 @@ class TherapistApplication : CommandLineRunner {
 				hoursFriday = 523264,
 				hoursSaturday = 523264,
 				hoursSunday = 523264
-				)
+		)
 
 		val martin = TherapistEntity(
 				name = "Martin Mueller",
@@ -74,18 +74,15 @@ class TherapistApplication : CommandLineRunner {
 				hoursSunday = 523264
 		)
 
-		massageTypeRepo?.save(relax)
-		massageTypeRepo?.save(swedish)
-		massageTypeRepo?.save(tai)
+		massageTypeRepo.save(relax)
+		massageTypeRepo.save(swedish)
+		massageTypeRepo.save(tai)
 
-		val keniaR = therapistRepo?.save(kenia)
-		therapistRepo?.save(martin)
-		logger.info("Kenia " + keniaR?.id.toString())
+		val keniaR = therapistRepo.save(kenia)
+		therapistRepo.save(martin)
+		logger.info("Kenia " + keniaR.id.toString())
 
-		// fetch all books
-//		for(therapist in therapistRepo.findAll()) {
-//			logger.info(therapist.toString())
-//		}
+//		therapistRepo.findAll().forEach(System.out::println)
 	}
 }
 

@@ -13,6 +13,8 @@ object SecurityContextUtils {
 
     private val ANONYMOUS = "anonymous"
 
+    private val ADMIN_ROLE = "ROLE_ADMIN"
+
     val userName: String
         get() {
             val securityContext = SecurityContextHolder.getContext()
@@ -46,4 +48,6 @@ object SecurityContextUtils {
             authentication?.authorities?.forEach { e -> roles.add(e.authority) }
             return roles
         }
+
+    fun isAdmin(): Boolean = userRoles.contains(ADMIN_ROLE)
 }

@@ -63,5 +63,6 @@ dependencies {
 	testCompile "org.mockito:mockito-core:2.+"
 	testCompile('org.mockito:mockito-junit-jupiter:2.18.3')
 	testCompile('org.springframework.boot:spring-boot-starter-test')
+	testImplementation('org.springframework.security:spring-security-test')
 
 }
