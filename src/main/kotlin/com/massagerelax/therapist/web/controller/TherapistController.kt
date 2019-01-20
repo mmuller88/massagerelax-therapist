@@ -60,7 +60,13 @@ class TherapistController(private val jpaTherapistService: JpaTherapistService) 
 //    @PostAuthorize("returnObject.username == authentication.principal.nickName")
     fun updateTherapistById(@PathVariable(value = "therapistId") therapistId: Long,
                           @Valid @RequestBody therapistBodyUpdate: UpdateTherapistDTO): ResponseEntity<TherapistDTO> {
-        return ResponseEntity.ok(jpaTherapistService.updateTherapist(therapistId, TherapistEntity.fromDto(therapistBodyUpdate)).toDto())
+        val updatedTherapist = jpaTherapistService.retrieveTherapist(therapistId).copy(
+                name = therapistBodyUpdate.name,
+                description = therapistBodyUpdate.description,
+                number = therapistBodyUpdate.number,
+                mobile_table = therapistBodyUpdate.mobileTable
+        )
+        return ResponseEntity.ok(jpaTherapistService.updateTherapist(therapistId, updatedTherapist).toDto())
     }
 
     @DeleteMapping("/therapists/{therapistId}")

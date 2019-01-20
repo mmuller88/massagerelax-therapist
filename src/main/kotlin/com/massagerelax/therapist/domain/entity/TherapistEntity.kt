@@ -35,7 +35,7 @@ data class TherapistEntity (
                 name = "therapist_massages",
                 joinColumns = [JoinColumn(name = "therapist_id", referencedColumnName = "id")],
                 inverseJoinColumns = [JoinColumn(name = "massage_type_id", referencedColumnName = "id")])
-        var massageTypes: List<MassageTypeEntity> = mutableListOf(),
+        var massageTypes: MutableList<MassageTypeEntity> = mutableListOf(),
 
         // Working days bit coded
         // Mo=2^0 Tu=2^1 We=2^2 Th=2^3 Fr=2^4 Sa=2^5 Su=2^6

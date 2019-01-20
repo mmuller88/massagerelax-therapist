@@ -57,9 +57,10 @@ class JpaTherapistService(val therapistRepository: TherapistRepository, val mass
             if(existingTherapist.massageTypes.contains(massageType)) {
                 throw TherapistMassageKeyExistException(existingTherapist.name, massageType.name)
             }
+            existingTherapist.massageTypes.addAll(listOf(massageType))
             // update therapist
             val updatedTherapist: TherapistEntity = existingTherapist
-                    .copy(massageTypes = existingTherapist.massageTypes + listOf(massageType))
+                    .copy(massageTypes = existingTherapist.massageTypes)
             therapistRepository.save(updatedTherapist)
         }.orElseThrow{ TherapistNotFoundException(id) }
     }
@@ -68,17 +69,18 @@ class JpaTherapistService(val therapistRepository: TherapistRepository, val mass
         // check if massagetype id exists
         massageTypeRepo.findById(massageType.id).orElseThrow{MassageTypeNotFoundException(massageType.id) }
 
-        return therapistRepository.findById(id).map { existingTherapist ->
+        therapistRepository.findById(id).map { existingTherapist ->
             // Check if therapist has the massage type
             if(!existingTherapist.massageTypes.contains(massageType)) {
-                throw TherapistMassageTypeNotFoundException(existingTherapist.id!!, massageType.id!!)
+                throw TherapistMassageTypeNotFoundException(existingTherapist.id, massageType.id)
             }
-            therapistRepository.delete(existingTherapist)
+            existingTherapist.massageTypes.remove(massageType)
+            therapistRepository.save(existingTherapist)
         }.orElseThrow{ TherapistNotFoundException(id) }
     }
 
     override fun deleteTherapist(id: Long) {
-        return therapistRepository.findById(id).map { existingTherapist ->
+        therapistRepository.findById(id).map { existingTherapist ->
             therapistRepository.delete(existingTherapist)
         }.orElseThrow{ TherapistNotFoundException(id) }
     }
