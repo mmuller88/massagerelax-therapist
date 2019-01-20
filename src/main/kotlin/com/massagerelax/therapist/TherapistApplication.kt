@@ -4,6 +4,7 @@ import com.massagerelax.therapist.domain.entity.MassageTypeEntity
 import com.massagerelax.therapist.domain.entity.TherapistEntity
 import com.massagerelax.therapist.domain.repository.MassageTypeRepository
 import com.massagerelax.therapist.domain.repository.TherapistRepository
+import org.hibernate.Hibernate
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.CommandLineRunner
@@ -82,7 +83,13 @@ class TherapistApplication {
 		therapistRepo.save(martin)
 		logger.info("Kenia " + keniaR.id.toString())
 
-//		therapistRepo.findAll().forEach(System.out::println)
+		val therapists: List<TherapistEntity> = therapistRepo.findAll()
+
+//		therapists.forEach{it ->
+//			Hibernate.initialize(it)
+//			print(it)
+//		}
+
 	}
 }
 

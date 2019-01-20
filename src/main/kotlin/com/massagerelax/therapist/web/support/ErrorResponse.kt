@@ -26,6 +26,7 @@ class ErrorResponseEntity: ResponseEntity<ErrorResponse> {
     companion object {
 
         fun badReqeust(message:String) = ErrorResponseEntity(ErrorResponse(HttpStatus.BAD_REQUEST, message))
+        fun conflictReqeust(message:String) = ErrorResponseEntity(ErrorResponse(HttpStatus.CONFLICT, message))
         fun badReqeust(message:String, bindingErrors:List<String>) = ErrorResponseEntity(ErrorResponse(HttpStatus.BAD_REQUEST, message, bindingErrors))
         fun notFound(message:String) = ErrorResponseEntity(ErrorResponse(HttpStatus.NOT_FOUND, message))
         fun serverError(message:String) = ErrorResponseEntity(ErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR, message))

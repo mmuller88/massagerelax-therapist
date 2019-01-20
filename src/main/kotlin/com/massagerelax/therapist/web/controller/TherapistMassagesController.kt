@@ -21,6 +21,7 @@ class TherapistMassagesController(
     {
 
     @GetMapping("/therapists/{therapistId}/massages")
+    @CrossOrigin(origins = ["http://localhost:4200"])
     @ApiResponses(value = [
         ApiResponse(code = 401, message = "Authentication failed", response = ErrorResponse::class),
         ApiResponse(code = 404, message = "therapistId don't exists", response = ErrorResponse::class)
@@ -31,6 +32,7 @@ class TherapistMassagesController(
     }
 
     @PostMapping("/therapists/{therapistId}/massages")
+    @CrossOrigin(origins = ["http://localhost:4200"])
     @ApiResponses(value = [
         ApiResponse(code = 400, message = "Invalid parameter: therapistMassageBodyAdd is invalid", response = ErrorResponse::class),
         ApiResponse(code = 401, message = "Authentication failed", response = ErrorResponse::class),
@@ -45,6 +47,7 @@ class TherapistMassagesController(
     }
 
     @DeleteMapping("/therapists/{therapistId}/massages/{massageTypeId}")
+    @CrossOrigin(origins = ["http://localhost:4200"])
     @ApiResponses(value = [
         ApiResponse(code = 401, message = "Authentication failed", response = ErrorResponse::class),
         ApiResponse(code = 404, message = "therapistId don't exists", response = ErrorResponse::class)

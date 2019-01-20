@@ -5,6 +5,7 @@ import com.massagerelax.therapist.web.support.ErrorResponseEntity.Companion.notF
 import com.massagerelax.therapist.domain.DataNotFoundException
 import com.massagerelax.therapist.domain.InvalidArgumentException
 import com.massagerelax.therapist.domain.KeyExistException
+import com.massagerelax.therapist.web.support.ErrorResponseEntity.Companion.conflictReqeust
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.MessageSource
 import org.springframework.validation.BindException
@@ -19,7 +20,7 @@ class ExceptionHandlers @Autowired constructor(var messageSource: MessageSource)
 
     @ExceptionHandler(KeyExistException::class)
     fun keyExistException(exception: KeyExistException, locale: Locale) =
-            badReqeust(messageSource.getMessage(exception, locale))
+            conflictReqeust(messageSource.getMessage(exception, locale))
 
     @ExceptionHandler(DataNotFoundException::class)
     fun resourceNotFoundException(exception: DataNotFoundException, locale: Locale) =

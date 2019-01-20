@@ -22,6 +22,7 @@ import org.springframework.security.access.prepost.PreAuthorize
 class TherapistController(private val jpaTherapistService: JpaTherapistService) {
 
     @GetMapping("/therapists")
+    @CrossOrigin(origins = ["http://localhost:4200"])
     @ApiResponses(value = [
         ApiResponse(code = 401, message = "Authentication failed", response = ErrorResponse::class)
     ])
@@ -30,6 +31,7 @@ class TherapistController(private val jpaTherapistService: JpaTherapistService) 
     }
 
     @GetMapping("/therapists/{therapistId}")
+    @CrossOrigin(origins = ["http://localhost:4200"])
     @ApiResponses(value = [
         ApiResponse(code = 401, message = "Authentication failed", response = ErrorResponse::class),
         ApiResponse(code = 404, message = "therapistId don't exists", response = ErrorResponse::class)
@@ -39,6 +41,7 @@ class TherapistController(private val jpaTherapistService: JpaTherapistService) 
     }
 
     @PostMapping("/therapists")
+    @CrossOrigin(origins = ["http://localhost:4200"])
     @ApiResponses(value = [
         ApiResponse(code = 400, message = "Invalid parameter: therapistBodyCreate is invalid", response = ErrorResponse::class),
         ApiResponse(code = 401, message = "Authentication failed", response = ErrorResponse::class)
@@ -48,6 +51,7 @@ class TherapistController(private val jpaTherapistService: JpaTherapistService) 
     }
 
     @PutMapping("/therapists/{therapistId}")
+    @CrossOrigin(origins = ["http://localhost:4200"])
     @ApiResponses(value = [
         ApiResponse(code = 400, message = "Invalid parameter: therapistBodyUpdate is invalid", response = ErrorResponse::class),
         ApiResponse(code = 401, message = "Authentication failed", response = ErrorResponse::class),
@@ -60,6 +64,7 @@ class TherapistController(private val jpaTherapistService: JpaTherapistService) 
     }
 
     @DeleteMapping("/therapists/{therapistId}")
+    @CrossOrigin(origins = ["http://localhost:4200"])
     @ApiResponses(value = [
         ApiResponse(code = 401, message = "Authentication failed", response = ErrorResponse::class),
         ApiResponse(code = 404, message = "therapistId don't exists", response = ErrorResponse::class)
