@@ -79,7 +79,7 @@ data class TherapistEntity (
         )
 {
 
-        fun toDto(): TherapistDTO = TherapistDTO(
+        fun toDto() = TherapistDTO(
                 id = this.id!!,
                 name = this.name,
                 description = this.description,

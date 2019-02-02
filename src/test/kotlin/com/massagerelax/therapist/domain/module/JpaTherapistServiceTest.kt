@@ -147,7 +147,7 @@ class JpaTherapistServiceTest {
             therapistService.addTherapistMassage(martin.id, tai)
         }
 
-        val updatedKenia = kenia.copy(massageTypes = listOf(relax, swedish))
+        val updatedKenia = kenia.copy(massageTypes = mutableListOf(relax, swedish))
         given(therapistRepository.save(updatedKenia)).willReturn(updatedKenia)
         val addTherapistMassage = therapistService.addTherapistMassage(kenia.id, swedish)
 

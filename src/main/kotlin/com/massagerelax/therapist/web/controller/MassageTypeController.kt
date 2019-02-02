@@ -11,11 +11,11 @@ import org.springframework.web.bind.annotation.*
 import javax.validation.Valid
 
 @RestController
+@CrossOrigin(origins = ["http://localhost:4200"])
 @RequestMapping("/api")
 class MassageTypeController(private val jpaMassageTypeService: JpaMassageTypeService) {
 
     @GetMapping("/massagetypes")
-    @CrossOrigin(origins = ["http://localhost:4200"])
     @ApiResponses(value = [
         ApiResponse(code = 401, message = "Authentication failed", response = ErrorResponse::class)
     ])
@@ -24,7 +24,6 @@ class MassageTypeController(private val jpaMassageTypeService: JpaMassageTypeSer
     }
 
     @PostMapping("/massagetypes")
-    @CrossOrigin(origins = ["http://localhost:4200"])
     @ApiResponses(value = [
         ApiResponse(code = 400, message = "Invalid parameter: massageTypeBodyCreate is invalid", response = ErrorResponse::class),
         ApiResponse(code = 401, message = "Authentication failed", response = ErrorResponse::class)
@@ -34,7 +33,6 @@ class MassageTypeController(private val jpaMassageTypeService: JpaMassageTypeSer
     }
 
     @GetMapping("/massagetypes/{massageTypeId}")
-    @CrossOrigin(origins = ["http://localhost:4200"])
     @ApiResponses(value = [
         ApiResponse(code = 401, message = "Authentication failed", response = ErrorResponse::class),
         ApiResponse(code = 404, message = "massageTypeId don't exists", response = ErrorResponse::class)
@@ -44,7 +42,6 @@ class MassageTypeController(private val jpaMassageTypeService: JpaMassageTypeSer
     }
 
     @GetMapping("/massagetypes/{massageTypeId}/therapists")
-    @CrossOrigin(origins = ["http://localhost:4200"])
     @ApiResponses(value = [
         ApiResponse(code = 401, message = "Authentication failed", response = ErrorResponse::class),
         ApiResponse(code = 404, message = "massageTypeId don't exists", response = ErrorResponse::class)
@@ -54,7 +51,6 @@ class MassageTypeController(private val jpaMassageTypeService: JpaMassageTypeSer
     }
 
     @PutMapping("/massagetypes/{massageTypeId}")
-    @CrossOrigin(origins = ["http://localhost:4200"])
     @ApiResponses(value = [
         ApiResponse(code = 400, message = "Invalid parameter: therapistBodyUpdate is invalid", response = ErrorResponse::class),
         ApiResponse(code = 401, message = "Authentication failed", response = ErrorResponse::class),
@@ -66,7 +62,6 @@ class MassageTypeController(private val jpaMassageTypeService: JpaMassageTypeSer
     }
 
     @DeleteMapping("/massagetypes/{massageTypeId}")
-    @CrossOrigin(origins = ["http://localhost:4200"])
     @ApiResponses(value = [
         ApiResponse(code = 401, message = "Authentication failed", response = ErrorResponse::class),
         ApiResponse(code = 404, message = "massageTypeId don't exists", response = ErrorResponse::class)

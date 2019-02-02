@@ -18,11 +18,11 @@ import org.springframework.security.access.prepost.PreAuthorize
 
 
 @RestController
+@CrossOrigin(origins = ["http://localhost:4200"])
 @RequestMapping("/api")
 class TherapistController(private val jpaTherapistService: JpaTherapistService) {
 
     @GetMapping("/therapists")
-    @CrossOrigin(origins = ["http://localhost:4200"])
     @ApiResponses(value = [
         ApiResponse(code = 401, message = "Authentication failed", response = ErrorResponse::class)
     ])
@@ -31,7 +31,6 @@ class TherapistController(private val jpaTherapistService: JpaTherapistService) 
     }
 
     @GetMapping("/therapists/{therapistId}")
-    @CrossOrigin(origins = ["http://localhost:4200"])
     @ApiResponses(value = [
         ApiResponse(code = 401, message = "Authentication failed", response = ErrorResponse::class),
         ApiResponse(code = 404, message = "therapistId don't exists", response = ErrorResponse::class)
@@ -41,17 +40,15 @@ class TherapistController(private val jpaTherapistService: JpaTherapistService) 
     }
 
     @PostMapping("/therapists")
-    @CrossOrigin(origins = ["http://localhost:4200"])
     @ApiResponses(value = [
         ApiResponse(code = 400, message = "Invalid parameter: therapistBodyCreate is invalid", response = ErrorResponse::class),
         ApiResponse(code = 401, message = "Authentication failed", response = ErrorResponse::class)
     ])
-    fun createNewTherapists(@Valid @RequestBody therapistBodyCreate: CreateTherapistDTO): ResponseEntity<TherapistDTO> {
+    fun createNewTherapist(@Valid @RequestBody therapistBodyCreate: CreateTherapistDTO): ResponseEntity<TherapistDTO> {
         return ResponseEntity.status(HttpStatus.CREATED).body(jpaTherapistService.addTherapist(TherapistEntity.fromDto(therapistBodyCreate)).toDto())
     }
 
     @PutMapping("/therapists/{therapistId}")
-    @CrossOrigin(origins = ["http://localhost:4200"])
     @ApiResponses(value = [
         ApiResponse(code = 400, message = "Invalid parameter: therapistBodyUpdate is invalid", response = ErrorResponse::class),
         ApiResponse(code = 401, message = "Authentication failed", response = ErrorResponse::class),
@@ -70,7 +67,6 @@ class TherapistController(private val jpaTherapistService: JpaTherapistService) 
     }
 
     @DeleteMapping("/therapists/{therapistId}")
-    @CrossOrigin(origins = ["http://localhost:4200"])
     @ApiResponses(value = [
         ApiResponse(code = 401, message = "Authentication failed", response = ErrorResponse::class),
         ApiResponse(code = 404, message = "therapistId don't exists", response = ErrorResponse::class)
