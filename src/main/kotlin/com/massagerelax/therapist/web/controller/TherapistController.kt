@@ -6,9 +6,11 @@ import com.massagerelax.therapist.web.dto.UpdateTherapistDTO
 import com.massagerelax.therapist.domain.entity.TherapistEntity
 import com.massagerelax.therapist.domain.module.JpaTherapistService
 import com.massagerelax.therapist.web.config.SecurityContextUtils
+import com.massagerelax.therapist.web.controller.proxy.AreaServiceProxy
 import com.massagerelax.therapist.web.support.ErrorResponse
 import io.swagger.annotations.ApiResponse
 import io.swagger.annotations.ApiResponses
+import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.security.access.prepost.PostAuthorize
@@ -28,6 +30,18 @@ class TherapistController(private val jpaTherapistService: JpaTherapistService) 
     ])
     fun getAllTherapists(): ResponseEntity<List<TherapistDTO>> {
         return ResponseEntity.ok(jpaTherapistService.retrieveTherapists().map { therapistEntity -> therapistEntity.toDto()})
+    }
+
+    @Autowired
+    lateinit var areaServiceProxy: AreaServiceProxy
+
+    @GetMapping("/therapists/long/{long}/lat/{lat}")
+    @ApiResponses(value = [
+        ApiResponse(code = 401, message = "Authentication failed", response = ErrorResponse::class),
+        ApiResponse(code = 404, message = "Area Service not found", response = ErrorResponse::class)
+    ])
+    fun getAllTherapistsWithinTheirRadius(@PathVariable("long") long: Double, @PathVariable("lat") lat: Double): ResponseEntity<List<String>> {
+        return ResponseEntity.ok(areaServiceProxy.retrieveTherapists(long, lat))
     }
 
     @GetMapping("/therapists/{therapistId}")

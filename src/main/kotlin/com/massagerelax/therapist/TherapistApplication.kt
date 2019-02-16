@@ -12,6 +12,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration
 import org.springframework.boot.autoconfigure.security.servlet.UserDetailsServiceAutoConfiguration
 import org.springframework.boot.runApplication
+import org.springframework.cloud.openfeign.EnableFeignClients
 import org.springframework.context.annotation.Bean
 import java.awt.print.Book
 
@@ -20,6 +21,7 @@ import java.awt.print.Book
 @SpringBootApplication(exclude = [
 	SecurityAutoConfiguration::class,
 	UserDetailsServiceAutoConfiguration::class])
+@EnableFeignClients("com.massagerelax.therapist.web.controller.proxy")
 class TherapistApplication {
 
 	private val logger = LoggerFactory.getLogger(TherapistApplication::class.java)

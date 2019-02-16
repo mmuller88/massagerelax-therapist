@@ -13,8 +13,8 @@ Therapist service for with several endpoints.
 
 ### API Documentation
 
-Docs can be found in swagger. Head to [/swagger-schema](http://localhost:8080/swagger-schema)
-after server boots for raw schema or checkout [SwaggerUI](http://localhost:8080/swagger-ui.html) for nice interface
+Docs can be found in swagger. Head to [/swagger-schema](http://localhost:8081/swagger-schema)
+after server boots for raw schema or checkout [SwaggerUI](http://localhost:8081/swagger-ui.html) for nice interface
 
 -------------
 
