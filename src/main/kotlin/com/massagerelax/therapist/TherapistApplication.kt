@@ -15,6 +15,9 @@ import org.springframework.boot.runApplication
 import org.springframework.cloud.openfeign.EnableFeignClients
 import org.springframework.context.annotation.Bean
 import java.awt.print.Book
+import com.massagerelax.therapist.web.support.MyErrorDecoder
+
+
 
 
 
@@ -23,6 +26,11 @@ import java.awt.print.Book
 	UserDetailsServiceAutoConfiguration::class])
 @EnableFeignClients("com.massagerelax.therapist.web.controller.proxy")
 class TherapistApplication {
+
+	@Bean
+	fun myErrorDecoder(): MyErrorDecoder {
+		return MyErrorDecoder()
+	}
 
 	private val logger = LoggerFactory.getLogger(TherapistApplication::class.java)
 
