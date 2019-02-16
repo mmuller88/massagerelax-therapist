@@ -5,7 +5,7 @@ import com.massagerelax.therapist.web.support.ErrorResponseEntity.Companion.notF
 import com.massagerelax.therapist.domain.DataNotFoundException
 import com.massagerelax.therapist.domain.InvalidArgumentException
 import com.massagerelax.therapist.domain.KeyExistException
-import com.massagerelax.therapist.web.controller.proxy.NotFoundException
+import com.massagerelax.therapist.web.controller.client.NotFoundException
 import com.massagerelax.therapist.web.support.ErrorResponseEntity.Companion.conflictReqeust
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.MessageSource
@@ -14,6 +14,7 @@ import org.springframework.validation.BindingResult
 import org.springframework.web.bind.MethodArgumentNotValidException
 import org.springframework.web.bind.annotation.ControllerAdvice
 import org.springframework.web.bind.annotation.ExceptionHandler
+import java.net.ConnectException
 import java.util.*
 
 @ControllerAdvice
@@ -27,8 +28,12 @@ class ExceptionHandlers @Autowired constructor(var messageSource: MessageSource)
     fun resourceNotFoundException(exception: DataNotFoundException, locale: Locale) =
             notFound(messageSource.getMessage(exception, locale))
 
+    @ExceptionHandler(ConnectException::class)
+    fun serviceNotFoundException(exception: ConnectException) =
+            notFound(exception.localizedMessage)
+
     @ExceptionHandler(NotFoundException::class)
-    fun serviceNotFoundException(exception: NotFoundException, locale: Locale) =
+    fun serviceUrlNotFoundException(exception: NotFoundException, locale: Locale) =
             notFound(messageSource.getMessage(exception, locale))
 
     @ExceptionHandler(InvalidArgumentException::class)

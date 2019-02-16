@@ -4,9 +4,7 @@ import com.massagerelax.therapist.domain.entity.MassageTypeEntity
 import com.massagerelax.therapist.domain.entity.TherapistEntity
 import com.massagerelax.therapist.domain.repository.MassageTypeRepository
 import com.massagerelax.therapist.domain.repository.TherapistRepository
-import org.hibernate.Hibernate
 import org.slf4j.LoggerFactory
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.CommandLineRunner
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration
@@ -14,7 +12,6 @@ import org.springframework.boot.autoconfigure.security.servlet.UserDetailsServic
 import org.springframework.boot.runApplication
 import org.springframework.cloud.openfeign.EnableFeignClients
 import org.springframework.context.annotation.Bean
-import java.awt.print.Book
 import com.massagerelax.therapist.web.support.MyErrorDecoder
 
 
@@ -24,7 +21,7 @@ import com.massagerelax.therapist.web.support.MyErrorDecoder
 @SpringBootApplication(exclude = [
 	SecurityAutoConfiguration::class,
 	UserDetailsServiceAutoConfiguration::class])
-@EnableFeignClients("com.massagerelax.therapist.web.controller.proxy")
+@EnableFeignClients("com.massagerelax.therapist.web.controller.client")
 class TherapistApplication {
 
 	@Bean

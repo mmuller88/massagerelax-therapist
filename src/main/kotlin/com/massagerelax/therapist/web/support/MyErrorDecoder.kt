@@ -1,6 +1,6 @@
 package com.massagerelax.therapist.web.support
 
-import com.massagerelax.therapist.web.controller.proxy.AreaServiceNotFoundException
+import com.massagerelax.therapist.web.controller.client.AreaServiceUrlNotFoundException
 import feign.Response
 import feign.codec.ErrorDecoder
 
@@ -11,8 +11,9 @@ class MyErrorDecoder : ErrorDecoder {
 
     override fun decode(methodKey: String, response: Response): Exception {
         return if (response.status() == 404) {
-            AreaServiceNotFoundException()
-        } else defaultErrorDecoder.decode(methodKey, response)
+            AreaServiceUrlNotFoundException()
+        }
+        else defaultErrorDecoder.decode(methodKey, response)
     }
 
 }
