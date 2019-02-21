@@ -11,6 +11,7 @@ buildscript {
 		classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:${kotlinVersion}")
 		classpath("org.jetbrains.kotlin:kotlin-allopen:${kotlinVersion}")
 		classpath("org.jetbrains.kotlin:kotlin-noarg:${kotlinVersion}")
+		classpath('se.transmode.gradle:gradle-docker:1.2')
 	}
 }
 
@@ -20,10 +21,12 @@ apply plugin: 'kotlin-jpa'
 apply plugin: 'eclipse'
 apply plugin: 'org.springframework.boot'
 apply plugin: 'io.spring.dependency-management'
+apply plugin: 'docker'
 
-group = 'com.massagerelax'
+group = 'damadden88'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = 1.8
+
 compileKotlin {
 	kotlinOptions {
 		freeCompilerArgs = ["-Xjsr305=strict"]
@@ -47,6 +50,7 @@ dependencies {
 	compile "io.springfox:springfox-swagger-ui:2.9.2"
 	compile group: 'org.springframework.security.oauth.boot', name: 'spring-security-oauth2-autoconfigure', version: '2.1.1.RELEASE'
 	compile group: 'org.springframework.cloud', name: 'spring-cloud-starter-openfeign', version: '2.1.0.RELEASE'
+	compile group: 'net.bytebuddy', name: 'byte-buddy', version: '1.9.10'
 	implementation('org.springframework.boot:spring-boot-starter')
 	implementation('org.springframework.boot:spring-boot-starter-data-jpa')
 	implementation('org.springframework.boot:spring-boot-starter-web')
@@ -66,4 +70,28 @@ dependencies {
 	testCompile('org.springframework.boot:spring-boot-starter-test')
 	testImplementation('org.springframework.security:spring-security-test')
 
+}
+
+task buildDocker(type: Docker, dependsOn: build) {
+	push = false
+	applicationName = bootJar.baseName
+	dockerfile = file('Dockerfile')
+	doFirst {
+		copy {
+			from jar
+			into stageDir
+		}
+	}
+}
+
+task releaseDocker(type: Docker, dependsOn: build) {
+	push = true
+	applicationName = bootJar.baseName
+	dockerfile = file('Dockerfile')
+	doFirst {
+		copy {
+			from jar
+			into stageDir
+		}
+	}
 }

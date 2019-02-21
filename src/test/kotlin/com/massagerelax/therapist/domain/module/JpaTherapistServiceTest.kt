@@ -157,6 +157,7 @@ class JpaTherapistServiceTest {
     @Test
     fun deleteTherapistMassage() {
         given(therapistRepository.findById(kenia.id)).willReturn(Optional.of(kenia))
+        given(therapistRepository.save(kenia)).willReturn(kenia)
         given(massageTypeRepository.findById(relax.id)).willReturn(Optional.of(relax))
         given(massageTypeRepository.findById(swedish.id)).willReturn(Optional.of(swedish))
 
