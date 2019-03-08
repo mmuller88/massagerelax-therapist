@@ -20,6 +20,6 @@ matrix:
   - name: "AllUnitTests"
     before_install:
       - docker run -d -p 3307:3306 -e MYSQL_ROOT_PASSWORD=massagerelax -e MYSQL_USER=massagerelax -e MYSQL_DATABASE=massagerelax -e MYSQL_PASSWORD=massagerelax --name mysql_massagerelax mysql:5.7.23
-    script: travis_wait 20 ./gradlew test -Dspring.datasource.url=jdbc:mysql://localhost:3307/massagerelax?autoReconnect=true&useUnicode=true&characterEncoding=UTF-8&allowMultiQueries=true&useSSL=false
+    script: travis_wait 20 ./gradlew build --scan -s -Dspring.datasource.url=jdbc:mysql://localhost:3307/massagetrelax?autoReconnect=true&useUnicode=true&characterEncoding=UTF-8&allowMultiQueries=true&useSSL=false
 
 install: travis_retry ./gradlew assemble
