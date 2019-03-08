@@ -1,0 +1,27 @@
+dist: trusty
+sudo: required
+language: java
+jdk:
+  - oraclejdk8
+services:
+  - docker
+
+before_cache:
+  - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
+  - rm -fr $HOME/.gradle/caches/*/plugin-resolution/
+
+cache:
+  directories:
+    - $HOME/.gradle/caches/
+    - $HOME/.gradle/wrapper/
+
+matrix:
+  include:
+  - name: "AllUnitTests"
+    before_install:
+      - docker run -p 3306:3306 -e MYSQL_ROOT_PASSWORD=massagerelax -e MYSQL_USER=massagerelax -e MYSQL_DATABASE=massagerelax -e MYSQL_PASSWORD=massagerelax --name mysql_massagerelax mysql:5.7.23
+    script:
+      - SET SPRING_CONFIG_LOCATION=jdbc:mysql://localhost:3306/massagerelax?autoReconnect=true&useUnicode=true&characterEncoding=UTF-8&allowMultiQueries=true&useSSL=false
+      - travis_wait 20 gradle test
+
+install: travis_retry gradle assemble
