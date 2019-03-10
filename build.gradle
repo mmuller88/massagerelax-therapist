@@ -76,7 +76,10 @@ task buildDocker(type: Docker, dependsOn: build) {
 	push = false
 	applicationName = bootJar.baseName
 	dockerfile = file('Dockerfile')
-	setTagVersionToLatest()
+	if(customTagVersion != null)
+		setTagVersion(customTagVersion)
+	else
+		setTagVersionToLatest()
 	doFirst {
 		copy {
 			from jar
@@ -89,7 +92,10 @@ task releaseDocker(type: Docker, dependsOn: build) {
 	push = true
 	applicationName = bootJar.baseName
 	dockerfile = file('Dockerfile')
-	setTagVersionToLatest()
+	if(customTagVersion != null)
+		setTagVersion(customTagVersion)
+	else
+		setTagVersionToLatest()
 	doFirst {
 		copy {
 			from jar

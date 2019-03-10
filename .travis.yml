@@ -24,11 +24,15 @@ matrix:
 
 install: travis_retry ./gradlew assemble
 
-deploy:
-  provider: script
-  script: docker login -u ${DOCKER_USERNAME} -p ${DOCKER_PASSWORD} && ./gradlew build releaseDocker -x test
-  on:
-    branch: master
+after_success:
+  - docker login -u ${DOCKER_USERNAME} -p ${DOCKER_PASSWORD}
+  - |
+    if [ "$TRAVIS_BRANCH" = master ]; then
+      ./gradlew build releaseDocker -PcustomTagVersion=latest -x test;
+    else
+      tag_name=`echo $TRAVIS_BRANCH | tr / - `;
+      ./gradlew build releaseDocker -PcustomTagVersion=$tag_name -x test;
+    fi
 
 before_install:
   # troubleshooting info in case of problems
