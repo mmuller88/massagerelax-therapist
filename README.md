@@ -24,8 +24,7 @@ after server boots for raw schema or checkout [SwaggerUI](http://localhost:8081/
 
 -------------
 
-
 Links
-* [Author's blog](http://rux.vc)
-* [GitHub repo](https://github.com/ruXlab/kotlin-todo-server)
+* [Author's blog](http://martin--mueller.com)
+* [GitHub repo](https://github.com/mmuller88/massagerelax-therapist)
 
