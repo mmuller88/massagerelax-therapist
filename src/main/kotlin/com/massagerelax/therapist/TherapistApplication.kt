@@ -13,14 +13,12 @@ import org.springframework.boot.runApplication
 import org.springframework.cloud.openfeign.EnableFeignClients
 import org.springframework.context.annotation.Bean
 import com.massagerelax.therapist.web.support.MyErrorDecoder
-
-
-
-
+import org.springframework.cloud.client.discovery.EnableDiscoveryClient
 
 @SpringBootApplication(exclude = [
 	SecurityAutoConfiguration::class,
 	UserDetailsServiceAutoConfiguration::class])
+@EnableDiscoveryClient
 @EnableFeignClients("com.massagerelax.therapist.web.controller.client")
 class TherapistApplication {
 
