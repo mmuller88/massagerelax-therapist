@@ -22,10 +22,10 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient
 @EnableFeignClients("com.massagerelax.therapist.web.controller.client")
 class TherapistApplication {
 
-	@Bean
-	fun myErrorDecoder(): MyErrorDecoder {
-		return MyErrorDecoder()
-	}
+//	@Bean
+//	fun myErrorDecoder(): MyErrorDecoder {
+//		return MyErrorDecoder()
+//	}
 
 	private val logger = LoggerFactory.getLogger(TherapistApplication::class.java)
 

@@ -24,17 +24,17 @@ class ExceptionHandlers @Autowired constructor(var messageSource: MessageSource)
     fun keyExistException(exception: KeyExistException, locale: Locale) =
             conflictReqeust(messageSource.getMessage(exception, locale))
 
-//    @ExceptionHandler(DataNotFoundException::class)
-//    fun resourceNotFoundException(exception: DataNotFoundException, locale: Locale) =
-//            notFound(messageSource.getMessage(exception, locale))
-//
-//    @ExceptionHandler(ConnectException::class)
-//    fun serviceNotFoundException(exception: ConnectException) =
-//            notFound(exception.localizedMessage)
-//
-//    @ExceptionHandler(NotFoundException::class)
-//    fun serviceUrlNotFoundException(exception: NotFoundException, locale: Locale) =
-//            notFound(messageSource.getMessage(exception, locale))
+    @ExceptionHandler(DataNotFoundException::class)
+    fun resourceNotFoundException(exception: DataNotFoundException, locale: Locale) =
+            notFound(messageSource.getMessage(exception, locale))
+
+    @ExceptionHandler(ConnectException::class)
+    fun serviceNotFoundException(exception: ConnectException) =
+            notFound(exception.localizedMessage)
+
+    @ExceptionHandler(NotFoundException::class)
+    fun serviceUrlNotFoundException(exception: NotFoundException, locale: Locale) =
+            notFound(messageSource.getMessage(exception, locale))
 
     @ExceptionHandler(InvalidArgumentException::class)
     fun invalidArgumentException(exception: InvalidArgumentException, locale: Locale) =
