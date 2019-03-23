@@ -11,7 +11,7 @@ class MyErrorDecoder : ErrorDecoder {
 
     override fun decode(methodKey: String, response: Response): Exception {
         return if (response.status() == 404) {
-            AreaServiceUrlNotFoundException()
+            AreaServiceUrlNotFoundException(response.request().url() + " " + response.request().toString())
         }
         else defaultErrorDecoder.decode(methodKey, response)
     }

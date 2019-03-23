@@ -11,7 +11,7 @@ abstract class NotFoundException : RuntimeException, MessageSourceResolvable {
     override fun getDefaultMessage(): String?  = message
 }
 
-class AreaServiceUrlNotFoundException : NotFoundException("Area-Service not found") {
+class AreaServiceUrlNotFoundException(reason: String) : NotFoundException(reason) {
 
     override fun getCodes(): Array<out String> = arrayOf("error.areaServiceNotFound")
 }
