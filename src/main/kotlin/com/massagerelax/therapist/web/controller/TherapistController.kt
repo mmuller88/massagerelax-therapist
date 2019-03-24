@@ -39,6 +39,7 @@ class TherapistController(private val jpaTherapistService: JpaTherapistService) 
         ApiResponse(code = 401, message = "Authentication failed", response = ErrorResponse::class)
     ])
     fun getAllTherapists(): ResponseEntity<List<TherapistDTO>> {
+        LOGGER.info("Therapist get all {}")
         return ResponseEntity.ok(jpaTherapistService.retrieveTherapists().map { therapistEntity -> therapistEntity.toDto()})
     }
 

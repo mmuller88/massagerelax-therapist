@@ -9,6 +9,7 @@ import com.massagerelax.therapist.web.support.ErrorResponse
 import io.swagger.annotations.ApiParam
 import io.swagger.annotations.ApiResponse
 import io.swagger.annotations.ApiResponses
+import org.slf4j.LoggerFactory
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 import javax.validation.Valid
@@ -17,6 +18,8 @@ import javax.validation.Valid
 @RestController
 @RequestMapping("/api")
 class TherapistTimesController(private val jpaTherapistService: JpaTherapistService) {
+
+    private val LOGGER = LoggerFactory.getLogger(TherapistTimesController::class.java)
 
     @GetMapping("/therapists/{therapistId}/working-times")
     @ApiResponses(value = [
