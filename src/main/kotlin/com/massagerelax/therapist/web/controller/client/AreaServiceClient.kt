@@ -6,7 +6,6 @@ import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestMapping
 
 @FeignClient(name="area")
-@RequestMapping("/api")
 interface AreaServiceClient {
 
     @GetMapping("/therapists/long/{long}/lat/{lat}")

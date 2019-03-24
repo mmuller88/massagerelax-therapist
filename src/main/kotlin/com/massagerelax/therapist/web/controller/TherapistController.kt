@@ -21,7 +21,7 @@ import javax.validation.Valid
 
 @RestController
 @CrossOrigin(origins = ["http://localhost:4200"])
-@RequestMapping("/api")
+//@RequestMapping("/api")
 class TherapistController(private val jpaTherapistService: JpaTherapistService) {
 
     private val LOGGER = LoggerFactory.getLogger(TherapistController::class.java)
