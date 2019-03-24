@@ -4,6 +4,7 @@ import com.massagerelax.therapist.domain.entity.MassageTypeEntity
 import com.massagerelax.therapist.domain.entity.TherapistEntity
 import com.massagerelax.therapist.domain.repository.MassageTypeRepository
 import com.massagerelax.therapist.domain.repository.TherapistRepository
+import com.massagerelax.therapist.web.controller.TherapistController
 import org.slf4j.LoggerFactory
 import org.springframework.boot.CommandLineRunner
 import org.springframework.boot.autoconfigure.SpringBootApplication
@@ -14,12 +15,19 @@ import org.springframework.cloud.openfeign.EnableFeignClients
 import org.springframework.context.annotation.Bean
 import com.massagerelax.therapist.web.support.MyErrorDecoder
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient
+import springfox.documentation.builders.ApiInfoBuilder
+import springfox.documentation.builders.PathSelectors
+import springfox.documentation.builders.RequestHandlerSelectors
+import springfox.documentation.spi.DocumentationType
+import springfox.documentation.spring.web.plugins.Docket
+import springfox.documentation.swagger2.annotations.EnableSwagger2
 
 @SpringBootApplication(exclude = [
 	SecurityAutoConfiguration::class,
 	UserDetailsServiceAutoConfiguration::class])
 @EnableDiscoveryClient
 @EnableFeignClients("com.massagerelax.therapist.web.controller.client")
+@EnableSwagger2
 class TherapistApplication {
 
 	@Bean
@@ -97,6 +105,14 @@ class TherapistApplication {
 
 	}
 }
+
+@Bean
+fun swaggerTherapistApi10() = Docket(DocumentationType.SWAGGER_2)
+		.select()
+		.apis(RequestHandlerSelectors.basePackage(TherapistController::class.java.`package`.name))
+		.paths(PathSelectors.any())
+		.build()
+		.apiInfo(ApiInfoBuilder().version("1.0").title("Therapist API").description("Documentation Therapist API v1.0").build())
 
 fun main(args: Array<String>) {
 	runApplication<TherapistApplication>(*args)
