@@ -14,13 +14,16 @@ import org.springframework.boot.runApplication
 import org.springframework.cloud.openfeign.EnableFeignClients
 import org.springframework.context.annotation.Bean
 import com.massagerelax.therapist.web.support.MyErrorDecoder
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient
 import springfox.documentation.builders.ApiInfoBuilder
 import springfox.documentation.builders.PathSelectors
 import springfox.documentation.builders.RequestHandlerSelectors
 import springfox.documentation.spi.DocumentationType
+import springfox.documentation.spring.web.paths.RelativePathProvider
 import springfox.documentation.spring.web.plugins.Docket
 import springfox.documentation.swagger2.annotations.EnableSwagger2
+import javax.servlet.ServletContext
 
 @SpringBootApplication(exclude = [
 	SecurityAutoConfiguration::class,
@@ -30,12 +33,28 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2
 @EnableSwagger2
 class TherapistApplication {
 
+	private val logger = LoggerFactory.getLogger(TherapistApplication::class.java)
+
+	@Value("\${therapist.base.path:}")
+	lateinit var therapistBasePath: String
+
 	@Bean
 	fun myErrorDecoder(): MyErrorDecoder {
 		return MyErrorDecoder()
 	}
 
-	private val logger = LoggerFactory.getLogger(TherapistApplication::class.java)
+	@Bean
+	fun swaggerTherapistApi10(servletContext: ServletContext) = Docket(DocumentationType.SWAGGER_2)
+			.pathProvider(object : RelativePathProvider(servletContext) {
+				override fun getApplicationBasePath(): String {
+					return therapistBasePath
+				}
+			})
+			.select()
+			.apis(RequestHandlerSelectors.basePackage(TherapistController::class.java.`package`.name))
+			.paths(PathSelectors.any())
+			.build()
+			.apiInfo(ApiInfoBuilder().version("1.0").title("Therapist API").description("Documentation Therapist API v1.0").build())
 
 	@Bean
 	fun databaseInitializer(massageTypeRepo: MassageTypeRepository,
@@ -105,14 +124,6 @@ class TherapistApplication {
 
 	}
 }
-
-@Bean
-fun swaggerTherapistApi10() = Docket(DocumentationType.SWAGGER_2)
-		.select()
-		.apis(RequestHandlerSelectors.basePackage(TherapistController::class.java.`package`.name))
-		.paths(PathSelectors.any())
-		.build()
-		.apiInfo(ApiInfoBuilder().version("1.0").title("Therapist API").description("Documentation Therapist API v1.0").build())
 
 fun main(args: Array<String>) {
 	runApplication<TherapistApplication>(*args)
