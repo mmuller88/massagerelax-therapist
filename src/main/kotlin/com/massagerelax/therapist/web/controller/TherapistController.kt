@@ -6,8 +6,6 @@ import com.massagerelax.therapist.web.dto.UpdateTherapistDTO
 import com.massagerelax.therapist.domain.entity.TherapistEntity
 import com.massagerelax.therapist.domain.module.JpaTherapistService
 import com.massagerelax.therapist.web.controller.client.AreaServiceClient
-import com.massagerelax.therapist.web.controller.client.Employee
-import com.massagerelax.therapist.web.controller.client.EmployeeClient
 import com.massagerelax.therapist.web.support.ErrorResponse
 import io.swagger.annotations.ApiResponse
 import io.swagger.annotations.ApiResponses
@@ -27,18 +25,11 @@ class TherapistController(private val jpaTherapistService: JpaTherapistService) 
     private val LOGGER = LoggerFactory.getLogger(TherapistController::class.java)
 
     @Autowired
-    lateinit var employeeClient: EmployeeClient
-
-    @Autowired
     lateinit var areaServiceClient: AreaServiceClient
-
-    @GetMapping("/feign")
-    fun listRest(): List<Employee> {
-        return employeeClient.findByDepartment("1")
-    }
 
     @GetMapping("/alive")
     fun checkAreaAlive(): String {
+        LOGGER.info("Therapist check if area service alive {}")
         return areaServiceClient.checkAlive()
     }
 
