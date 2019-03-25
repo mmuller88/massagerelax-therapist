@@ -11,4 +11,7 @@ interface AreaServiceClient {
     @GetMapping("/therapists/long/{long}/lat/{lat}")
     fun retrieveTherapists(@PathVariable("long") long: Double, @PathVariable("lat") lat: Double) : List<String>
 
+    @GetMapping("/alive")
+    fun checkAlive() : String
+
 }

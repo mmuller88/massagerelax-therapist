@@ -29,9 +29,17 @@ class TherapistController(private val jpaTherapistService: JpaTherapistService) 
     @Autowired
     lateinit var employeeClient: EmployeeClient
 
+    @Autowired
+    lateinit var areaServiceClient: AreaServiceClient
+
     @GetMapping("/feign")
     fun listRest(): List<Employee> {
         return employeeClient.findByDepartment("1")
+    }
+
+    @GetMapping("/alive")
+    fun checkAreaAlive(): String {
+        return areaServiceClient.checkAlive()
     }
 
     @GetMapping("/therapists")
@@ -42,9 +50,6 @@ class TherapistController(private val jpaTherapistService: JpaTherapistService) 
         LOGGER.info("Therapist get all {}")
         return ResponseEntity.ok(jpaTherapistService.retrieveTherapists().map { therapistEntity -> therapistEntity.toDto()})
     }
-
-    @Autowired
-    lateinit var areaServiceClient: AreaServiceClient
 
     @GetMapping("/therapists/long/{long}/lat/{lat}")
     @ApiResponses(value = [
