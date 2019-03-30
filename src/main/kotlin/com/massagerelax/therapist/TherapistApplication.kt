@@ -33,7 +33,7 @@ import javax.servlet.ServletContext
 @EnableSwagger2
 class TherapistApplication {
 
-	private val logger = LoggerFactory.getLogger(TherapistApplication::class.java)
+	private val LOGGER = LoggerFactory.getLogger(TherapistApplication::class.java)
 
 	@Value("\${therapist.base.path:}")
 	lateinit var therapistBasePath: String
@@ -113,7 +113,7 @@ class TherapistApplication {
 
 		val keniaR = therapistRepo.save(kenia)
 		therapistRepo.save(martin)
-		logger.info("Kenia " + keniaR.id.toString())
+		LOGGER.info("Kenia " + keniaR.id.toString())
 
 		val therapists: List<TherapistEntity> = therapistRepo.findAll()
 
