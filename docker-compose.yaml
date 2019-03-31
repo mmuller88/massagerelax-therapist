@@ -17,7 +17,7 @@ services:
       - SPRING_DATASOURCE_USERNAME=massagerelax
       - SPRING_DATASOURCE_PASSWORD=massagerelax
       - SPRING_DATASOURCE_URL=jdbc:mysql://mysql:3306/massagerelax?useUnicode=yes&characterEncoding=UTF-8
-      - AREA-URL=http://area:8082
+      - AREA_URL=http://area:8082
     ports:
       - 8081:8081
 
