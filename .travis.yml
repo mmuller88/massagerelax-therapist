@@ -5,6 +5,8 @@ jdk:
   - oraclejdk8
 services:
   - docker
+node_js:
+  - "8.2.1"
 
 before_cache:
   - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
@@ -21,6 +23,40 @@ matrix:
     before_install:
       - docker run -d -p 3307:3306 -e MYSQL_ROOT_PASSWORD=massagerelax -e MYSQL_USER=massagerelax -e MYSQL_DATABASE=massagerelax -e MYSQL_PASSWORD=massagerelax --name mysql_massagerelax mysql:5.7.23
     script: travis_wait 20 ./gradlew test -Dspring.datasource.url=jdbc:mysql://localhost:3307/massagetrelax?autoReconnect=true&useUnicode=true&characterEncoding=UTF-8&allowMultiQueries=true&useSSL=false
+  - name: "Docker Compose Postman Test"
+      before_install:
+        - cd test
+        - docker-compose config
+        - echo "Starting Therapist in Docker containers"
+        - docker-compose ps
+        - docker-compose pull
+        - docker-compose up -d
+        - |
+          WAIT_INTERVAL=1
+          COUNTER=0
+          TIMEOUT=100
+          t0=`date +%s`
+
+          echo "Waiting for Therapist to start"
+          response=$(curl --write-out %{http_code} --output /dev/null --silent http://localhost:8081/api/therapists)
+          until [ "200" -eq "$response" ] || [ "$COUNTER" -eq "$TIMEOUT" ]; do
+            printf '.'
+            sleep $WAIT_INTERVAL
+            COUNTER=$(($COUNTER+$WAIT_INTERVAL))
+            response=$(curl --write-out %{http_code} --output /dev/null --silent http://localhost:8081/api/therapists)
+          done
+
+          if (("$COUNTER" < "$TIMEOUT")) ; then
+            t1=`date +%s`
+            delta=$((($t1 - $t0)/60))
+            echo "Area started in $delta minutes"
+          else
+            echo "Waited $COUNTER seconds"
+            echo "Therapist could not start in time."
+            echo "The last response code from /api/therapists was $response"
+            exit 1
+          fi
+      script: travis_wait 30 node_modules/.bin/newman run test/area.postman_collection.json -e test/tests.postman_environment.json
 
 install: travis_retry ./gradlew assemble -PcustomTagVersion=latest
 

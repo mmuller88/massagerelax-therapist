@@ -1,0 +1,207 @@
+{
+	"info": {
+		"_postman_id": "b4d959c7-4236-4734-a88d-06b7125feca7",
+		"name": "therapist",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "01 MassageTypeController",
+			"item": [
+				{
+					"name": "GET massagetype",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "bac6b93d-c0b5-4f8e-89d3-7a508a58140f",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Array has length of 3\", function () {",
+									"    pm.expect(pm.response.json().length).to.eq(3);",
+									"});",
+									"",
+									"pm.environment.set(\"massageTypeId\", pm.response.json()[0].id);",
+									"",
+									"console.log(\"massageTypeId:\"+pm.environment.get(\"massageTypeId\"));"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{protocol}}://{{host}}:{{port}}{{prefix}}/massagetypes/",
+							"protocol": "{{protocol}}",
+							"host": [
+								"{{host}}"
+							],
+							"port": "{{port}}{{prefix}}",
+							"path": [
+								"massagetypes",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "02 TherapistController",
+			"item": [
+				{
+					"name": "GET therapists",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "bac6b93d-c0b5-4f8e-89d3-7a508a58140f",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Array has length of 2\", function () {",
+									"    pm.expect(pm.response.json().length).to.eq(2);",
+									"});",
+									"",
+									"pm.environment.set(\"therapistId\", pm.response.json()[0].id);",
+									"",
+									"console.log(\"therapistId:\"+pm.environment.get(\"therapistId\"));"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{protocol}}://{{host}}:{{port}}{{prefix}}/therapists/",
+							"protocol": "{{protocol}}",
+							"host": [
+								"{{host}}"
+							],
+							"port": "{{port}}{{prefix}}",
+							"path": [
+								"therapists",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "03 TherapistMassagesController",
+			"item": [
+				{
+					"name": "GET therapists/{{id}}/massages",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "bac6b93d-c0b5-4f8e-89d3-7a508a58140f",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Array has length of 2\", function () {",
+									"    pm.expect(pm.response.json().length).to.eq(2);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{protocol}}://{{host}}:{{port}}{{prefix}}/therapists/{{therapistId}}/massages",
+							"protocol": "{{protocol}}",
+							"host": [
+								"{{host}}"
+							],
+							"port": "{{port}}{{prefix}}",
+							"path": [
+								"therapists",
+								"{{therapistId}}",
+								"massages"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "04 TherapistTimesController",
+			"item": [
+				{
+					"name": "GET therapists/{{id}}/massages Copy",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "bac6b93d-c0b5-4f8e-89d3-7a508a58140f",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Array has length of 7\", function () {",
+									"    pm.expect(pm.response.json().length).to.eq(7);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{protocol}}://{{host}}:{{port}}{{prefix}}/therapists/{{therapistId}}/working-times",
+							"protocol": "{{protocol}}",
+							"host": [
+								"{{host}}"
+							],
+							"port": "{{port}}{{prefix}}",
+							"path": [
+								"therapists",
+								"{{therapistId}}",
+								"working-times"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
