@@ -4,7 +4,7 @@ import org.springframework.cloud.openfeign.FeignClient
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 
-@FeignClient(name="area", path = "/api")
+@FeignClient(name="area", path = "/api", url = "\${area.url}")
 interface AreaServiceClient {
 
     @GetMapping("/therapists/long/{long}/lat/{lat}")
